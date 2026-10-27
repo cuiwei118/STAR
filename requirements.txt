@@ -1,0 +1,14 @@
+einops==0.8.2
+matplotlib
+numpy==1.26.2
+pandas==2.3.3
+Pillow
+PyYAML==6.0.2
+rasterio
+scikit-learn==1.6.1
+scipy==1.13.1
+tensorboard==2.20.0
+timm==1.0.25
+torch==2.1.1
+torchvision==0.16.1
+tqdm==4.65.2
