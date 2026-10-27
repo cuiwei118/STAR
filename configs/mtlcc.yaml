@@ -1,0 +1,99 @@
+# Run from the repository root; --seed selects 66, 1234, or 2026.
+CHECKPOINT:
+  eval_steps: 761
+  load_from_checkpoint: null
+  partial_restore: false
+  save_path: outputs/mtlcc
+  save_steps: 1000000
+  train_metrics_steps: 761
+DATASETS:
+  test:
+    base_dir: data/datasets/MTLCC
+    batch_size: 32
+    dataset: MTLCC
+    extra_data: null
+    max_seq_len: 16
+    num_workers: 4
+    paths: data/datasets/MTLCC/paths/test_paths.csv
+    persistent_workers: false
+    temporal_random_sample: false
+    temporal_uniform_sample: true
+  train:
+    base_dir: data/datasets/MTLCC
+    batch_size: 32
+    dataset: MTLCC
+    extra_data: null
+    max_seq_len: 16
+    num_workers: 4
+    paths: data/datasets/MTLCC/paths/train_paths_main_train90.csv
+    persistent_workers: false
+    temporal_from_start: false
+    temporal_random_sample: true
+  val:
+    base_dir: data/datasets/MTLCC
+    batch_size: 16
+    dataset: MTLCC
+    extra_data: null
+    max_seq_len: 16
+    num_workers: 4
+    paths: data/datasets/MTLCC/paths/val_paths_main_10.csv
+    persistent_workers: false
+    temporal_random_sample: false
+    temporal_uniform_sample: true
+MODEL:
+  architecture: STAR
+  cnn_stem_channels:
+  - 64
+  convnext_model_type: tiny
+  convnext_pretrained: true
+  dim: 192
+  drop_path_rate: 0.1
+  hf_radius_threshold: 0.1
+  img_res: 24
+  in_channels: 14
+  interval: 1
+  learnable_pos: false
+  max_seq_len: 16
+  mlp_ratio: 4.0
+  num_classes: 17
+  patch_size: 2
+  spatial_attn_heads: 12
+  spatial_decoder_layers: 4
+  spatial_encoder_layers: 8
+  temporal_attn_heads: 8
+  temporal_attn_layers: 3
+  temporal_pool: mean
+  use_abs_pos_emb: true
+  window_attention: true
+  window_size:
+  - 12
+  - 12
+REPRODUCIBILITY:
+  deterministic_data: true
+  persistent_workers: false
+  temp_dir: .runtime_temp/mtlcc
+RESULTS:
+  save_path: outputs/mtlcc
+SOLVER:
+  class_weights: null
+  early_stopping:
+    enabled: true
+    min_delta: 0.0001
+    mode: max
+    monitor: IOU
+    patience: 20
+  loss_function: masked_cross_entropy
+  lr_base: 0.0005
+  lr_min: 5.0e-06
+  lr_scheduler: cosine
+  lr_start: 1e-8
+  num_cycles: 1
+  num_epochs: 120
+  num_warmup_epochs: 10
+  reset_lr: true
+  scheduler_steps: 80000
+  steps: null
+  weight_decay: 0.0
+local_device_ids:
+- 0
+seed: 1234

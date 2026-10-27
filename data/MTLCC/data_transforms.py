@@ -141,7 +141,6 @@ class RandomTemporalMask(object):
         inputs[mask_indices] = 0.0
 
         sample['inputs'] = inputs
-        # Optionally, you might want to mask inputs_backward as well if it exists
         if 'inputs_backward' in sample:
             sample['inputs_backward'][torch.flip(mask_indices, (0,))] = 0.0
 

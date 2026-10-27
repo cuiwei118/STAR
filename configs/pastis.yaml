@@ -1,0 +1,93 @@
+# Run from the repository root; --seed selects 66, 1234, or 2026.
+CHECKPOINT:
+  eval_steps: 2274
+  load_from_checkpoint: null
+  partial_restore: false
+  save_path: outputs/pastis
+  save_steps: 20000000000
+  test_eval_steps: 2274
+  train_metrics_steps: 2274
+DATASETS:
+  test:
+    base_dir: data/datasets/PASTIS24
+    batch_size: 24
+    dataset: PASTIS24_fold1
+    extra_data: null
+    label_map: null
+    max_seq_len: 60
+    num_workers: 4
+    paths: data/datasets/PASTIS24/fold-paths/fold_5_paths.csv
+  train:
+    base_dir: data/datasets/PASTIS24
+    batch_size: 16
+    dataset: PASTIS24_fold1
+    extra_data: null
+    label_map: null
+    max_seq_len: 60
+    num_workers: 4
+    paths: data/datasets/PASTIS24/fold-paths/folds_1_123_paths.csv
+  val:
+    base_dir: data/datasets/PASTIS24
+    batch_size: 24
+    dataset: PASTIS24_fold1
+    extra_data: null
+    label_map: null
+    max_seq_len: 60
+    num_workers: 4
+    paths: data/datasets/PASTIS24/fold-paths/fold_4_paths.csv
+MODEL:
+  architecture: STAR
+  cnn_stem_channels:
+  - 64
+  convnext_model_type: tiny
+  convnext_pretrained: true
+  dim: 192
+  drop_last_input_channel: false
+  drop_path_rate: 0.2
+  hf_radius_threshold: 0.1
+  img_res: 24
+  in_channels: 11
+  interval: 1
+  learnable_pos: false
+  max_seq_len: 60
+  mlp_ratio: 4.0
+  num_classes: 19
+  patch_size: 2
+  spatial_attn_heads: 12
+  spatial_decoder_layers: 4
+  spatial_encoder_layers: 8
+  temporal_attn_heads: 8
+  temporal_attn_layers: 3
+  temporal_mask_probability: 0.2
+  temporal_pool: mean
+  use_abs_pos_emb: true
+  window_attention: true
+  window_size:
+  - 6
+  - 6
+RESULTS:
+  save_path: outputs/pastis
+SOLVER:
+  class_weights: null
+  early_stopping:
+    enabled: true
+    min_delta: 0.0001
+    mode: max
+    monitor: IOU
+    patience: 20
+  loss_function: masked_cross_entropy
+  lr_base: 5e-4
+  lr_min: 5e-6
+  lr_scheduler: cosine
+  lr_start: 1e-8
+  num_cycles: 1
+  num_epochs: 120
+  num_warmup_epochs: 7
+  reset_lr: true
+  steps: (0, 80000)
+  weight_decay: 0.0
+local_device_ids:
+- 0
+seed: 1234
+REPRODUCIBILITY:
+  temp_dir: .runtime_temp/pastis

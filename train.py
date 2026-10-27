@@ -346,8 +346,6 @@ def train_and_evaluate(net, dataloaders, config, device, lin_cls=False, use_amp=
     scheduler_total_steps = resolve_scheduler_total_steps(config, num_steps_train, total_train_steps)
     max_epochs = max(int(num_epochs), (total_train_steps + max(1, num_steps_train) - 1) // max(1, num_steps_train))
 
-    # Early stopping defaults to validation loss, which is a safer signal than
-    # a noisy target-year IoU during cross-year experiments.
     early_stop_cfg = get_params_values(config['SOLVER'], "early_stopping", {})
     early_stop_enabled = get_params_values(early_stop_cfg, "enabled", True)
     patience = int(get_params_values(early_stop_cfg, "patience", 20))

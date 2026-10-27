@@ -1,0 +1,99 @@
+# Run from the repository root; --seed selects 66, 1234, or 2026.
+CHECKPOINT:
+  eval_steps: 4000
+  load_from_checkpoint: null
+  partial_restore: false
+  save_path: outputs/south_africa
+  save_steps: 1000000
+  test_eval_steps: 0
+  train_metrics_steps: 4000
+DATASETS:
+  test:
+    base_dir: data/datasets/south_africa
+    batch_size: 32
+    bidir_input: false
+    dataset: SouthAfricaS2
+    group_by_tile_batches: false
+    max_seq_len: 32
+    num_workers: 16
+    paths: data/datasets/south_africa/paths/test_paths.csv
+    preprocessed_dir: data/datasets/south_africa/preprocessed_tiles
+    preprocessed_patch_dir: data/datasets/south_africa/preprocessed_patches_24
+  train:
+    base_dir: data/datasets/south_africa
+    batch_size: 32
+    bidir_input: false
+    dataset: SouthAfricaS2
+    group_by_tile_batches: false
+    max_seq_len: 32
+    num_workers: 16
+    paths: data/datasets/south_africa/paths/train_paths.csv
+    preprocessed_dir: data/datasets/south_africa/preprocessed_tiles
+    preprocessed_patch_dir: data/datasets/south_africa/preprocessed_patches_24
+    temporal_random_sample: true
+  val:
+    base_dir: data/datasets/south_africa
+    batch_size: 32
+    bidir_input: false
+    dataset: SouthAfricaS2
+    group_by_tile_batches: false
+    max_seq_len: 32
+    num_workers: 16
+    paths: data/datasets/south_africa/paths/val_paths.csv
+    preprocessed_dir: data/datasets/south_africa/preprocessed_tiles
+    preprocessed_patch_dir: data/datasets/south_africa/preprocessed_patches_24
+MODEL:
+  architecture: STAR
+  cnn_stem_channels:
+  - 64
+  convnext_model_type: tiny
+  convnext_pretrained: true
+  dim: 192
+  drop_last_input_channel: false
+  drop_path_rate: 0.1
+  ignore_background: true
+  img_res: 24
+  in_channels: 14
+  interval: 1
+  learnable_pos: false
+  max_seq_len: 32
+  mlp_ratio: 4.0
+  num_classes: 9
+  patch_size: 2
+  spatial_attn_heads: 12
+  spatial_decoder_layers: 4
+  spatial_encoder_layers: 8
+  temporal_attn_heads: 8
+  temporal_attn_layers: 3
+  temporal_pool: mean
+  time_channels: 1
+  use_abs_pos_emb: true
+  window_attention: true
+  window_size:
+  - 12
+  - 12
+SOLVER:
+  early_stopping:
+    enabled: true
+    min_delta: 1e-4
+    mode: max
+    monitor: IOU
+    patience: 20
+  loss_function: masked_cross_entropy
+  lr_base: 5e-4
+  lr_min: 5e-6
+  lr_scheduler: cosine
+  lr_start: 1e-8
+  num_cycles: 1
+  num_epochs: 120
+  num_warmup_epochs: 10
+  reset_lr: true
+  steps: (0, 120000)
+  weight_decay: 0.0
+local_device_ids:
+- 0
+seed: 1234
+RESULTS:
+  save_path: outputs/south_africa
+REPRODUCIBILITY:
+  temp_dir: .runtime_temp/south_africa
